@@ -1,0 +1,152 @@
+<!--#set var="title" value="Create Cool Slider" -->
+<!--#include virtual="/parts/header.html" -->
+
+{% include 'slider_app/include/header.html' %}
+
+{% load thumbnail %}
+
+<div id="cursor"></div>
+
+<header class="home-header">
+
+	<div class="top-line">
+		<a href="#" class="logo">
+			<!-- врапер для центрирования иконки -->
+			<!-- внутри ссылок указываем тег span -->
+			<span class="logo__img-wrapper">
+				<img src="{{ info.logo.url }}" alt="{{ info.logo_name }}" class="logo__image">
+			</span>
+			<span class="logo__text">{{ info.logo_name }}</span>
+		</a>
+		<div class="top-line__decoration"></div>
+		<div class="top-line__contacts">
+			Телефон:<span class="top-line__numbers">{{ info.phone }}</span>
+			<span class="top-line__separator"></span>
+			 <!--адрес для дальнейшего скрытия на малых экранох обернём в спан  -->
+			<span class="top-line__address">
+				Адрес:<span class="top-line__text">{{ info.address }}</span>
+			</span>
+		</div>
+		<div class="top-line__decoration"></div>
+		<div class="menu-button-container">
+			<a href="#" class="menu-button"></a>
+		</div>
+	</div>
+
+	<div class="home-header__content">
+
+		<aside class="home-aside">
+
+			<div class="home-aside__decoration"></div>
+			<div class="home-aside__soc">
+				<div class="home-aside__soc-items">
+
+					{% for acc in soc_accs %}
+					<a href="{{ acc.link }}" class="soc-item" target="_blank">
+						<!-- задаём изображение иконок через img, а не через bgi для того чтобы через cms была возможность добавлять другие сети -->
+						<img src="{{ acc.icon.url }}" alt="{{ acc.alt }}">
+					</a>
+					{% endfor %}
+
+				</div>
+			</div>
+			<div class="home-aside__share-icon"></div>
+
+		</aside>
+
+		<div class="slider-container">
+
+			<div class="slider-text">
+
+				<div class="swiper-wrapper">
+
+					{% for item in slider_items %}
+					<div class="swiper-slide slider-text__slide">
+						<div class="slider-text__content">
+							<h2 class="slider-text__heading">{{ item.header|safe }}</h2>
+							<p class="slider-text__desc">{{ item.description }}</p>
+<!--							<button data-micromodal-open="modal-1" class="button slider-text__button"><span>Оставить заявку</span></button>-->
+														<button href="#" data-micromodal-open="modal-1" class="button slider-text__button"><span>Оставить заявку</span></button>
+
+
+						</div>
+					</div>
+					{% endfor %}
+					
+				</div>
+
+			</div>
+
+			<div class="slider-img">
+
+				<div class="swiper-wrapper">
+					<!-- для того чтобы слайды перелистывались с эффектом паралакс не подойдёт установка изображения через img,
+								необходимо прописать через div и установить изображение через bg -->
+
+					{% for item in slider_items %}
+
+					{% thumbnail item.image "2560x1440" crop="50%" quality=80 as im %}
+					<div class="swiper-slide slider-img__slide">
+						<div class="slider-img__bg" data-swiper-parallax="30%" style="background-image: url({{ im.url }})"></div>
+					</div>
+					{% endthumbnail %}
+					{% endfor %}
+
+				</div>
+
+			</div>
+
+			<div class="slider-bottom">
+
+				<div class="slider-share">
+					<div class="slider-share__items">
+
+						{% for acc in soc_accs %}
+						{% if acc.publish %}
+						<a href="{{ acc.share }}" class="soc-item slider-share__item" target="_blank">
+							<!-- задаём изображение иконок через img, а не через bgi для того чтобы через cms была возможность добавлять другие сети -->
+							<img src="{{ acc.icon.url }}" alt="{{ acc.alt }}">
+						</a>
+						{% endif %}
+						{% endfor %}
+
+					</div>
+				</div>
+
+				<div class="slider-pagination">
+					<div class="swiper-pagination"></div>
+				</div>
+				<div class="slider-scrollbar">
+					<div class="swiper-scrollbar"></div>
+				</div>
+				<div class="slider-navigation">
+					<div class="slider-navigation-container">
+						<div class="swiper-button-prev"></div>
+						<div class="swiper-button-next"></div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="slider-pagination-count">
+				<span class="current">02</span> / <span class="total"></span>
+			</div>
+
+			<div class="slider-pagination-current"><span class="slider-pagination-current__num">01</span><span class="slider-pagination-current__dot">.</span></div>
+
+			<div class="slider-gear"></div>
+
+
+
+		</div>
+
+	</div>
+
+</header>
+
+{% include 'slider_app/include/modal.html' %}
+{% include 'slider_app/include/footer.html' %}
+
+<!--#include virtual="/parts/modal.html" -->
+
+<!--#include virtual="/parts/footer.html" -->
